@@ -4,18 +4,16 @@ import { Row, Col } from "reactstrap";
 import Barcode from "react-barcode";
 import QRCode from "qrcode.react";
 import Cartao from "../src/cartaoverso.png";
-import CartaoFrente from "../src/cartaofrente.png";
 import jwt from "jwt-simple";
-import "./index.css";
 
-const totalDeCartoes = 50
+const totalDeCartoes = 30
 const totalPorPagina = 8
 
 const Cartoes = () => {
 
   const [cards, setCards] = useState([])
-  
-  const preencherCartoes = () => {
+
+  const gerar = () => {
     let cartoes = [];
     for (let i = 1; i <= totalDeCartoes; i++) {
       let cartao = { codBarras: ("000" + i).slice(-3), qrcode: i };
@@ -32,52 +30,64 @@ const Cartoes = () => {
   }
 
   useEffect(() => {
-    preencherCartoes()
+    gerar()
   })
-  
+
   return (
-    <div style={{ marginLeft: 20 }}>
+    <div className="container">
       <Row>
-        {cards.map(cartao => (
-          <Col sm="6">
-            <div style={{ margin: 5 }}>
-              <QRCode
-                style={{
-                  position: "relative",
-                  right: 250,
-                  // top: 12,
-                  width: "140px",
-                  height: "140px",
-                  // zIndex: 1,
-                  padding: 10,
-                  background: "#fff"
-                }}
-                value={ip(cartao.qrcode)}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  transform: "rotate(-90deg)",
-                  left: -57,
-                  top: 135,
-                  zIndex: 1
-                }}
-              >
-                <Barcode
-                  value={cartao.codBarras}
-                  width={4.4}
-                  height={43}
-                  margin={5}
-                />
-              </div>
+        {cards.map((cartao, index) => (
+          <Col md='6'>
+            <div
+              title={index}
+              style={{
+                width: "100%",
+                height: "330px",
+                padding: '0px',
+                marginBottom: '10px',
+                background: '#c2c2c2',
+                zIndex: '0 auto'
+              }}
+            >
               <img
                 src={Cartao}
                 alt="img"
                 style={{
-                  width: "690",
-                  height: "330px"
+                  position: 'relative',
+                  height: '100%',
+                  zIndex: 1
                 }}
               />
+              <div
+                style={{
+                  position: "relative",
+                  transform: "rotate(-90deg)",
+                  zIndex: 150,
+                  top: '-88%',
+                  left: '-34%',
+                }}
+              >
+                <Barcode
+                  value={cartao.codBarras}
+                  height='20%'
+                  width='4%'
+                />
+
+              </div>
+              <div
+                style={{
+                  position: "relative",
+                  height: "30%",
+                  width: "22%",
+                  top: "-115%",
+                  left: "80%",
+                  zIndex: 100
+                }}
+              >
+                <QRCode
+                  value={ip(cartao.qrcode)}
+                />
+              </div>
             </div>
           </Col>
         ))}
