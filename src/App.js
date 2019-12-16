@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Container } from "reactstrap";
 import Barcode from "react-barcode";
 import QRCode from "qrcode.react";
 import Cartao from "../src/cartaoverso.png";
 import jwt from "jwt-simple";
 
-const totalDeCartoes = 30
-const totalPorPagina = 8
+const totalDeCartoes = 4
+const totalPorPagina = 4
+const alturaCartao = 290
 
 const GerarCartoes = () => {
 
@@ -16,9 +17,9 @@ const GerarCartoes = () => {
   const gerar = () => {
     let newPages = []
     let cartoes = []
-    let codigo = 1
+    let codigo = 497
 
-    for (let i = 0; i < Math.trunc(totalDeCartoes / totalPorPagina); i++) {
+    for (let i = 0; i < Math.trunc(totalDeCartoes/totalPorPagina); i++) {
       for (let j = 0; j < totalPorPagina; j++) {
         let cartao = { codBarras: ("000" + codigo).slice(-3), qrcode: codigo }
         cartoes.push(cartao)
@@ -40,23 +41,22 @@ const GerarCartoes = () => {
   useEffect(() => {
     if (!pages.length > 0) setPages(gerar())
     console.log(pages)
-  })
+  }, [pages])
 
   return (
-    <div className="container">
+    <Container>
       {pages.map((page, indexPage) => (
-        <Row key={indexPage}>{
+        <Row key={indexPage} style={{pageBreakAfter: 'always'}}>{
           page.cartoes.map((cartao, indexCard) => (
-            <Col md='6' key={indexCard}>
+            <Col md='5' key={indexCard} style={{marginBottom: '20px'}} >
               <div
                 title={indexCard}
                 style={{
                   width: "100%",
-                  height: "330px",
-                  padding: '0px',
+                  height: alturaCartao,
+                  marginLeft: indexCard % 2 !== 0 ? '20%':'',
                   marginBottom: '10px',
                   background: '#c2c2c2',
-                  zIndex: '0 auto'
                 }}
               >
                 <img
@@ -73,24 +73,24 @@ const GerarCartoes = () => {
                     position: "relative",
                     transform: "rotate(-90deg)",
                     zIndex: 150,
-                    top: '-88%',
-                    left: '-34%',
+                    top: '-89%',
+                    left: '-32%',
                   }}
                 >
                   <Barcode
                     value={cartao.codBarras}
-                    height={20}
-                    width={4}
+                    height={15}
+                    width={3}
                   />
                 </div>
                 <div
                   style={{
                     position: "relative",
-                    height: "30%",
-                    width: "22%",
-                    top: "-115%",
-                    left: "80%",
-                    zIndex: 100
+                    height: "0%",
+                    width: "0%",
+                    top: "-117%",
+                    left: "85%",
+                    zIndex: 150
                   }}
                 >
                   <QRCode
@@ -104,7 +104,7 @@ const GerarCartoes = () => {
         <hr/>
         </Row>
       ))}
-    </div>
+    </Container>
   )
 }
 
