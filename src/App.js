@@ -22,9 +22,7 @@ const GerarCartoes = () => {
 
     for (let i = 0; i < totalDePaginas; i++) {
       for (let j = 0; j < totalPorPagina; j++) {
-        
         if (mesa > totalDeCartoes) break
-
         let cartao = { codBarras: ("000" + mesa).slice(-3), qrcode: mesa }
         cartoes.push(cartao)
         mesa++
