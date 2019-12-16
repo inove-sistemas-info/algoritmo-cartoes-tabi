@@ -9,17 +9,25 @@ import jwt from "jwt-simple";
 const totalDeCartoes = 30
 const totalPorPagina = 8
 
-const Cartoes = () => {
+const GerarCartoes = () => {
 
-  const [cards, setCards] = useState([])
+  const [pages, setPages] = useState([])
 
   const gerar = () => {
-    let cartoes = [];
-    for (let i = 1; i <= totalDeCartoes; i++) {
-      let cartao = { codBarras: ("000" + i).slice(-3), qrcode: i };
-      cartoes.push(cartao);
+    let newPages = []
+    let cartoes = []
+    let codigo = 1
+
+    for (let i = 0; i < Math.trunc(totalDeCartoes / totalPorPagina); i++) {
+      for (let j = 0; j < totalPorPagina; j++) {
+        let cartao = { codBarras: ("000" + codigo).slice(-3), qrcode: codigo }
+        cartoes.push(cartao)
+        codigo++
+      }
+      newPages.push({ cartoes: cartoes })
+      cartoes = []
     }
-    setCards(cartoes);
+    return newPages
   }
 
   const ip = (mesa) => {
@@ -30,70 +38,74 @@ const Cartoes = () => {
   }
 
   useEffect(() => {
-    gerar()
+    if (!pages.length > 0) setPages(gerar())
+    console.log(pages)
   })
 
   return (
     <div className="container">
-      <Row>
-        {cards.map((cartao, index) => (
-          <Col md='6'>
-            <div
-              title={index}
-              style={{
-                width: "100%",
-                height: "330px",
-                padding: '0px',
-                marginBottom: '10px',
-                background: '#c2c2c2',
-                zIndex: '0 auto'
-              }}
-            >
-              <img
-                src={Cartao}
-                alt="img"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  zIndex: 1
-                }}
-              />
+      {pages.map((page, indexPage) => (
+        <Row key={indexPage}>{
+          page.cartoes.map((cartao, indexCard) => (
+            <Col md='6' key={indexCard}>
               <div
+                title={indexCard}
                 style={{
-                  position: "relative",
-                  transform: "rotate(-90deg)",
-                  zIndex: 150,
-                  top: '-88%',
-                  left: '-34%',
+                  width: "100%",
+                  height: "330px",
+                  padding: '0px',
+                  marginBottom: '10px',
+                  background: '#c2c2c2',
+                  zIndex: '0 auto'
                 }}
               >
-                <Barcode
-                  value={cartao.codBarras}
-                  height='20%'
-                  width='4%'
+                <img
+                  src={Cartao}
+                  alt="img"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    zIndex: 1
+                  }}
                 />
-
+                <div
+                  style={{
+                    position: "relative",
+                    transform: "rotate(-90deg)",
+                    zIndex: 150,
+                    top: '-88%',
+                    left: '-34%',
+                  }}
+                >
+                  <Barcode
+                    value={cartao.codBarras}
+                    height={20}
+                    width={4}
+                  />
+                </div>
+                <div
+                  style={{
+                    position: "relative",
+                    height: "30%",
+                    width: "22%",
+                    top: "-115%",
+                    left: "80%",
+                    zIndex: 100
+                  }}
+                >
+                  <QRCode
+                    value={ip(cartao.qrcode)}
+                  />
+                </div>
               </div>
-              <div
-                style={{
-                  position: "relative",
-                  height: "30%",
-                  width: "22%",
-                  top: "-115%",
-                  left: "80%",
-                  zIndex: 100
-                }}
-              >
-                <QRCode
-                  value={ip(cartao.qrcode)}
-                />
-              </div>
-            </div>
-          </Col>
-        ))}
-      </Row>
+            </Col>
+          ))
+        }
+        <hr/>
+        </Row>
+      ))}
     </div>
   )
 }
 
-export default Cartoes;
+export default GerarCartoes;
