@@ -6,8 +6,8 @@ import QRCode from "qrcode.react";
 import Cartao from "../src/cartaoverso.png";
 import jwt from "jwt-simple";
 
-const totalDeCartoes = 4
-const totalPorPagina = 4
+const totalDeCartoes = 500
+const totalPorPagina = 8
 const alturaCartao = 290
 
 const GerarCartoes = () => {
@@ -15,20 +15,25 @@ const GerarCartoes = () => {
   const [pages, setPages] = useState([])
 
   const gerar = () => {
-    let newPages = []
+    let paginas = []
     let cartoes = []
-    let codigo = 497
+    let mesa = 1
+    let totalDePaginas = Math.trunc(totalDeCartoes/totalPorPagina) + 1
 
-    for (let i = 0; i < Math.trunc(totalDeCartoes/totalPorPagina); i++) {
+    for (let i = 0; i < totalDePaginas; i++) {
       for (let j = 0; j < totalPorPagina; j++) {
-        let cartao = { codBarras: ("000" + codigo).slice(-3), qrcode: codigo }
+        
+        if (mesa > totalDeCartoes) break
+
+        let cartao = { codBarras: ("000" + mesa).slice(-3), qrcode: mesa }
         cartoes.push(cartao)
-        codigo++
+        mesa++
       }
-      newPages.push({ cartoes: cartoes })
+      paginas.push({ cartoes: cartoes })
       cartoes = []
     }
-    return newPages
+
+    return paginas
   }
 
   const ip = (mesa) => {
