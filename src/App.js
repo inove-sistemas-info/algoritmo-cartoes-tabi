@@ -18,7 +18,7 @@ const GerarCartoes = () => {
     let paginas = []
     let cartoes = []
     let mesa = 1
-    let totalDePaginas = Math.trunc(totalDeCartoes/totalPorPagina) + 1
+    let totalDePaginas = Math.trunc(totalDeCartoes / totalPorPagina) + 1
 
     for (let i = 0; i < totalDePaginas; i++) {
       for (let j = 0; j < totalPorPagina; j++) {
@@ -49,15 +49,15 @@ const GerarCartoes = () => {
   return (
     <Container>
       {pages.map((page, indexPage) => (
-        <Row key={indexPage} style={{pageBreakAfter: 'always'}}>{
+        <Row key={indexPage} style={{ pageBreakAfter: 'always' }}>{
           page.cartoes.map((cartao, indexCard) => (
-            <Col md='5' key={indexCard} style={{marginBottom: '20px'}} >
+            <Col md='5' key={indexCard} style={{ marginBottom: '20px' }} >
               <div
                 title={indexCard}
                 style={{
                   width: "100%",
                   height: alturaCartao,
-                  marginLeft: indexCard % 2 !== 0 ? '20%':'',
+                  marginLeft: indexCard % 2 !== 0 ? '20%' : '',
                   marginBottom: '10px',
                   background: '#c2c2c2',
                 }}
@@ -89,22 +89,30 @@ const GerarCartoes = () => {
                 <div
                   style={{
                     position: "relative",
-                    height: "0%",
-                    width: "0%",
-                    top: "-117%",
-                    left: "85%",
-                    zIndex: 150
+                    height: "40%",
+                    width: "26%",
+                    zIndex: 100,
                   }}
                 >
-                  <QRCode
-                    value={ip(cartao.qrcode)}
-                  />
+                <QRCode
+                  value={ip(cartao.qrcode)}
+                  style={{
+                    position: "relative",
+                    height: "100%",
+                    width: "100%",
+                    top: "-290%",
+                    left: "332%",
+                    zIndex: 200,
+                    background: '#FFF',
+                    padding: '10px'
+                  }}
+                />
                 </div>
               </div>
             </Col>
           ))
         }
-        <hr/>
+          <hr />
         </Row>
       ))}
     </Container>
