@@ -6,8 +6,8 @@ import QRCode from "qrcode.react";
 import Cartao from "../src/cartaoverso.png";
 import jwt from "jwt-simple";
 
-const totalDeCartoes = 500
-const totalPorPagina = 8
+const totalDeCartoes = 10
+const totalPorPagina = 2
 const alturaCartao = 290
 
 const GerarCartoes = () => {
@@ -30,7 +30,6 @@ const GerarCartoes = () => {
       paginas.push({ cartoes: cartoes })
       cartoes = []
     }
-
     return paginas
   }
 
