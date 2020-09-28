@@ -8,6 +8,7 @@ const totalDeCartoes = 100;
 const totalPorPagina = 60;
 const alturaCartao = 150;
 const codEmpresa = 1218;
+const S = "Q7jZYinLNDNSWAVBr6wsclXfc";
 
 const GerarCartoes = () => {
   const [pages, setPages] = useState([]);
@@ -33,9 +34,8 @@ const GerarCartoes = () => {
   };
 
   const gerarLink = (mesa) => {
-    let secret = "Q7jZYinLNDNSWAVBr6wsclXfc";
     let payload = { mesa, emp: codEmpresa };
-    let token = jwt.encode(payload, secret);
+    let token = jwt.encode(payload, S);
     return `https://cardapio.digital.inovesistemas.info/redirect/${token}`;
   };
 
