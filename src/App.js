@@ -7,6 +7,7 @@ import jwt from "jwt-simple";
 const totalDeCartoes = 100;
 const totalPorPagina = 60;
 const alturaCartao = 150;
+const codEmpresa = 1218;
 
 const GerarCartoes = () => {
   const [pages, setPages] = useState([]);
@@ -33,7 +34,7 @@ const GerarCartoes = () => {
 
   const gerarLink = (mesa) => {
     let secret = "Q7jZYinLNDNSWAVBr6wsclXfc";
-    let payload = { mesa, emp: 1218 };
+    let payload = { mesa, emp: codEmpresa };
     let token = jwt.encode(payload, secret);
     return `https://cardapio.digital.inovesistemas.info/redirect/${token}`;
   };
